@@ -10,6 +10,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.BufferedReader
+import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.Inet4Address
 import java.net.InetAddress
@@ -415,7 +416,8 @@ class CloudRelayService {
         if (sanitized.isEmpty()) return@withContext
 
         val topic = getInboxTopic(sanitized)
-        val url = "https://ntfy.sh/$topic/json?since=1h"
+        // Use live mode for real-time streaming, with poll=1 to get new messages as they arrive
+        val url = "https://ntfy.sh/$topic/json?live"
 
         try {
             val request = Request.Builder()
@@ -424,8 +426,13 @@ class CloudRelayService {
                 .get()
                 .build()
 
+            Log.d(tag, "Starting SSE stream for topic: $topic")
             streamingClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) return@withContext
+                if (!response.isSuccessful) {
+                    Log.e(tag, "SSE stream failed with HTTP ${response.code}")
+                    return@withContext
+                }
+                Log.d(tag, "SSE stream connected successfully")
                 val stream = response.body?.byteStream() ?: return@withContext
                 val reader = BufferedReader(InputStreamReader(stream))
 
@@ -449,7 +456,7 @@ class CloudRelayService {
                 }
             }
         } catch (e: Exception) {
-            Log.d(tag, "Stream disconnected for $myPairingCode (${e.message})")
+            Log.e(tag, "Stream disconnected for $myPairingCode (${e.message})", e)
         }
     }
 

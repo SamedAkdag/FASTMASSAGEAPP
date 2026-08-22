@@ -337,11 +337,13 @@ class PingRingRepository(private val context: Context) {
                 val user = userDao.getCurrentUser()
                 if (user != null && user.pairingCode.isNotBlank()) {
                     try {
+                        Log.d(tag, "Starting inbox stream listener for pairing code: ${user.pairingCode}")
                         cloudRelay.listenToInboxStream(user.pairingCode) { event ->
+                            Log.d(tag, "Event received from stream: ${event::class.simpleName}")
                             handleIncomingCloudEvent(event, user)
                         }
                     } catch (e: Exception) {
-                        Log.e(tag, "Stream exception: ${e.message}")
+                        Log.e(tag, "Stream exception: ${e.message}", e)
                     }
                 }
                 delay(3000L) // Retry stream if disconnected
@@ -364,11 +366,14 @@ class PingRingRepository(private val context: Context) {
                     // Poll inbox
                     try {
                         val events = cloudRelay.pollInbox(user.pairingCode)
+                        if (events.isNotEmpty()) {
+                            Log.d(tag, "Polled ${events.size} events from inbox")
+                        }
                         for (event in events) {
                             handleIncomingCloudEvent(event, user)
                         }
                     } catch (e: Exception) {
-                        Log.e(tag, "Polling exception: ${e.message}")
+                        Log.e(tag, "Polling exception: ${e.message}", e)
                     }
                 }
                 delay(3000L)
