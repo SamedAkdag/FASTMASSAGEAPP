@@ -1,0 +1,7 @@
+{
+  "name": "Ping-Ring",
+  "description": "Acil durum mikro-iletişim ve kritik uyarı uygulaması.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
