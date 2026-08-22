@@ -1,4 +1,4 @@
-package com.example
+package com.aistudio.pingring.pgrng
 
 import android.Manifest
 import android.app.KeyguardManager
@@ -25,11 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import com.example.ui.PingRingViewModel
-import com.example.ui.screens.AuthScreen
-import com.example.ui.screens.EmergencyAlertScreen
-import com.example.ui.screens.MainScreen
-import com.example.ui.theme.MyApplicationTheme
+import com.aistudio.pingring.pgrng.ui.PingRingViewModel
+import com.aistudio.pingring.pgrng.ui.screens.AuthScreen
+import com.aistudio.pingring.pgrng.ui.screens.EmergencyAlertScreen
+import com.aistudio.pingring.pgrng.ui.screens.MainScreen
+import com.aistudio.pingring.pgrng.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
 

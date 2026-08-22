@@ -1,4 +1,4 @@
-package com.example.data.local
+package com.aistudio.pingring.pgrng.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.example.data.model.AlertEntity
-import com.example.data.model.AlertStatus
-import com.example.data.model.PairedContactEntity
-import com.example.data.model.UserEntity
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertStatus
+import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
+import com.aistudio.pingring.pgrng.data.model.UserEntity
 
 class Converters {
     @TypeConverter
