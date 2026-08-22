@@ -1,4 +1,4 @@
-package com.example.service
+package com.aistudio.pingring.pgrng.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -15,9 +15,9 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import androidx.core.app.NotificationCompat
-import com.example.MainActivity
-import com.example.R
-import com.example.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.MainActivity
+import com.aistudio.pingring.pgrng.R
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
 
 class AlertNotificationManager(private val context: Context) {
 

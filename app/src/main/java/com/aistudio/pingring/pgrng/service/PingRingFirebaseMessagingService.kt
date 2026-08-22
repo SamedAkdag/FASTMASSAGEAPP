@@ -1,10 +1,10 @@
-package com.example.service
+package com.aistudio.pingring.pgrng.service
 
 import android.util.Log
-import com.example.data.local.AppDatabase
-import com.example.data.model.AlertEntity
-import com.example.data.model.AlertStatus
-import com.example.data.model.PairedContactEntity
+import com.aistudio.pingring.pgrng.data.local.AppDatabase
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertStatus
+import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope

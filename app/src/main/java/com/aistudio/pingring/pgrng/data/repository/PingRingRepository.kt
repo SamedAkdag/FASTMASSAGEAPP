@@ -1,16 +1,16 @@
-package com.example.data.repository
+package com.aistudio.pingring.pgrng.data.repository
 
 import android.content.Context
 import android.util.Log
-import com.example.data.local.AppDatabase
-import com.example.data.model.AlertEntity
-import com.example.data.model.AlertStatus
-import com.example.data.model.PairedContactEntity
-import com.example.data.model.UserEntity
-import com.example.data.remote.CloudRelayService
-import com.example.data.remote.RemoteAlertMessage
-import com.example.data.remote.RemoteIncomingEvent
-import com.example.service.AlertNotificationManager
+import com.aistudio.pingring.pgrng.data.local.AppDatabase
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertStatus
+import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
+import com.aistudio.pingring.pgrng.data.model.UserEntity
+import com.aistudio.pingring.pgrng.data.remote.CloudRelayService
+import com.aistudio.pingring.pgrng.data.remote.RemoteAlertMessage
+import com.aistudio.pingring.pgrng.data.remote.RemoteIncomingEvent
+import com.aistudio.pingring.pgrng.service.AlertNotificationManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -337,11 +337,13 @@ class PingRingRepository(private val context: Context) {
                 val user = userDao.getCurrentUser()
                 if (user != null && user.pairingCode.isNotBlank()) {
                     try {
+                        Log.d(tag, "Starting inbox stream listener for pairing code: ${user.pairingCode}")
                         cloudRelay.listenToInboxStream(user.pairingCode) { event ->
+                            Log.d(tag, "Event received from stream: ${event::class.simpleName}")
                             handleIncomingCloudEvent(event, user)
                         }
                     } catch (e: Exception) {
-                        Log.e(tag, "Stream exception: ${e.message}")
+                        Log.e(tag, "Stream exception: ${e.message}", e)
                     }
                 }
                 delay(3000L) // Retry stream if disconnected
@@ -364,11 +366,14 @@ class PingRingRepository(private val context: Context) {
                     // Poll inbox
                     try {
                         val events = cloudRelay.pollInbox(user.pairingCode)
+                        if (events.isNotEmpty()) {
+                            Log.d(tag, "Polled ${events.size} events from inbox")
+                        }
                         for (event in events) {
                             handleIncomingCloudEvent(event, user)
                         }
                     } catch (e: Exception) {
-                        Log.e(tag, "Polling exception: ${e.message}")
+                        Log.e(tag, "Polling exception: ${e.message}", e)
                     }
                 }
                 delay(3000L)
