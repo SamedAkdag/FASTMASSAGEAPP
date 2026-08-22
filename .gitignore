@@ -1,6 +1,6 @@
 ```
-# Google Services
-google-services.json
+# Google Services (commented out for testing)
+# google-services.json
 
 # Dependencies
 node_modules/
