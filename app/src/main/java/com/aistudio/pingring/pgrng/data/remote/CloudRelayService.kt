@@ -1,4 +1,4 @@
-package com.example.data.remote
+package com.aistudio.pingring.pgrng.data.remote
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers

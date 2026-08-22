@@ -1,4 +1,4 @@
-package com.example.data.local
+package com.aistudio.pingring.pgrng.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.data.model.AlertEntity
-import com.example.data.model.AlertStatus
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertStatus
 import kotlinx.coroutines.flow.Flow
 
 @Dao

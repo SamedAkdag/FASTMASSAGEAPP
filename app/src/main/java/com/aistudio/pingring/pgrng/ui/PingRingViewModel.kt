@@ -1,12 +1,12 @@
-package com.example.ui
+package com.aistudio.pingring.pgrng.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.model.AlertEntity
-import com.example.data.model.PairedContactEntity
-import com.example.data.model.UserEntity
-import com.example.data.repository.PingRingRepository
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
+import com.aistudio.pingring.pgrng.data.model.UserEntity
+import com.aistudio.pingring.pgrng.data.repository.PingRingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

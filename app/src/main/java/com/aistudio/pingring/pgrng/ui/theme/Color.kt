@@ -1,4 +1,4 @@
-package com.example.ui.theme
+package com.aistudio.pingring.pgrng.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.ui.screens
+package com.aistudio.pingring.pgrng.ui.screens
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -44,7 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

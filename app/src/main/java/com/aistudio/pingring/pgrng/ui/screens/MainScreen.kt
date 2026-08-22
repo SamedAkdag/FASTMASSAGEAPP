@@ -1,4 +1,4 @@
-package com.example.ui.screens
+package com.aistudio.pingring.pgrng.ui.screens
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -79,10 +79,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.data.model.AlertEntity
-import com.example.data.model.AlertStatus
-import com.example.data.model.PairedContactEntity
-import com.example.ui.PingRingViewModel
+import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AlertStatus
+import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
+import com.aistudio.pingring.pgrng.ui.PingRingViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
