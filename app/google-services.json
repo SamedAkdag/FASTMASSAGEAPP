@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1047737089116",
+    "project_id": "gen-lang-client-0805585891",
+    "storage_bucket": "gen-lang-client-0805585891.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047737089116:android:13e0e0354f0760417eba99",
+        "android_client_info": {
+          "package_name": "com.aistudio.pingring.pgrng"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWhDgMMgty6Bea1-tSzAss6D3h3WLUcVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
