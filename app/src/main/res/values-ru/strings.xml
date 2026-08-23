@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Ping-Ring</string>
+    
+    <!-- Main Screen - Header -->
+    <string name="header_pairing_title">Сопряжение устройств &amp; Идентификация</string>
+    <string name="header_pairing_subtitle">Введите код сопряжения другого устройства. После ввода оба устройства мгновенно добавят друг друга.</string>
+    <string name="my_device_code_label">КОД ЭТОГО УСТРОЙСТВА</string>
+    <string name="btn_copy">Копировать</string>
+    <string name="btn_add_by_code">Добавить по коду</string>
+    <string name="toast_code_copied">Ваш код скопирован: %s</string>
+    
+    <!-- Paired Contacts Section -->
+    <string name="paired_devices_title">Сопряженные устройства (%d)</string>
+    <string name="no_paired_devices">Пока нет сопряженных устройств.\nНажмите \'Добавить по коду\' выше и введите 6-значный код с другого телефона.</string>
+    <string name="btn_delete_pair">Удалить пару</string>
+    
+    <!-- Send Alert Section -->
+    <string name="send_alert_title">Отправить критическое оповещение</string>
+    <string name="alert_message_hint">Напишите ваше экстренное сообщение здесь…</string>
+    <string name="btn_send_alert">ОТПРАВИТЬ</string>
+    <string name="sending_indicator">Отправка…</string>
+    <string name="toast_alert_sent">Оповещение отправлено: %s</string>
+    <string name="toast_select_contact">Пожалуйста, выберите получателя!</string>
+    <string name="toast_enter_message">Пожалуйста, введите сообщение!</string>
+    
+    <!-- Alert Status Card -->
+    <string name="alert_status_pending">Статус: Ожидание – Повтор каждые 3 минуты до получения</string>
+    <string name="alert_status_acknowledged">Статус: ПРОЧИТАНО – Получатель увидел сообщение</string>
+    <string name="sender_label">От: %s (%s)</string>
+    <string name="btn_read_stop">Прочитано (Стоп)</string>
+    <string name="btn_cancel">Отмена</string>
+    
+    <!-- Test Mode Info -->
+    <string name="test_mode_info_title">Информация о тестовом режиме</string>
+    <string name="test_mode_info_text">Чтобы протестировать полноэкранный сигнал и поток \'Прочитано\'/\'Закрыть\' без второго телефона:</string>
+    <string name="test_mode_step_1">1. Включите быстрый режим повтора (верхний чип)</string>
+    <string name="test_mode_step_2">2. Отправьте оповещение</string>
+    <string name="test_mode_step_3">3. Увидьте полноэкранный красный сигнал на том же устройстве</string>
+    
+    <!-- My Code Dialog -->
+    <string name="dialog_my_code_title">Ваш код сопряжения</string>
+    <string name="dialog_my_code_subtitle">Введите этот 6-значный код в поле \'Добавить по коду\' на другом телефоне:</string>
+    <string name="btn_close">Закрыть</string>
+    
+    <!-- Add By Code Dialog -->
+    <string name="dialog_add_code_title">Введите код сопряжения</string>
+    <string name="dialog_add_code_hint">6-значный код другого устройства</string>
+    <string name="dialog_contact_name_hint">Имя (необязательно)</string>
+    <string name="btn_pair">Сопрячь</string>
+    <string name="btn_cancel_pair">Отмена</string>
+    <string name="pairing_error">Сопряжение не удалось: %s</string>
+    <string name="pairing_success">Сопряжение успешно! %s добавлен.</string>
+    <string name="pairing_in_progress">Сопряжение…</string>
+    
+    <!-- Emergency Alert Screen -->
+    <string name="emergency_warning_title">🔴 КРИТИЧЕСКОЕ ЭКСТРЕННОЕ ОПОВЕЩЕНИЕ</string>
+    <string name="retry_status_label">Статус повтора: %d/%d (Каждые 3 мин)</string>
+    <string name="sender_name_label">ОТ: %s</string>
+    <string name="send_time_label">Время отправки: %s</string>
+    <string name="btn_i_read">Прочитано</string>
+    <string name="btn_dismiss_keep">Закрыть (Продолжить повтор)</string>
+    <string name="alert_icon_desc">Критическое экстренное оповещение</string>
+    
+    <!-- Fast Retry Mode -->
+    <string name="fast_retry_label_short">%ds Тест</string>
+    <string name="standard_retry_label_short">%dm Стандарт</string>
+    <string name="account_logout">Аккаунт / Выход</string>
+    <string name="logout_confirm_title">Выйти</string>
+    <string name="logout_confirm_msg">Вы уверены, что хотите выйти с этого устройства? Все данные будут удалены.</string>
+    <string name="btn_logout">Выйти</string>
+    <string name="btn_go_back">Назад</string>
+</resources>

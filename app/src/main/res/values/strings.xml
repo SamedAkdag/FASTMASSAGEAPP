@@ -1,3 +1,73 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">Ping-Ring</string>
+    
+    <!-- Main Screen - Header -->
+    <string name="header_pairing_title">Cihaz Eşleştirme &amp; Kimlik</string>
+    <string name="header_pairing_subtitle">Karşı cihazın eşleştirme kodunu girin. Kod girildiğinde iki cihaz da anında birbirini ekler.</string>
+    <string name="my_device_code_label">BU CİHAZIN KODU</string>
+    <string name="btn_copy">Kopyala</string>
+    <string name="btn_add_by_code">Kod ile Ekle</string>
+    <string name="toast_code_copied">Kendi kodunuz kopyalandı: %s</string>
+    
+    <!-- Paired Contacts Section -->
+    <string name="paired_devices_title">Eşleşen Cihazlar (%d)</string>
+    <string name="no_paired_devices">Henüz eşleşen bir cihaz yok.\nYukarıdaki \'Kod ile Ekle\' butonuna basarak diğer telefonun 6 haneli kodunu girin.</string>
+    <string name="btn_delete_pair">Eşleşmeyi Sil</string>
+    
+    <!-- Send Alert Section -->
+    <string name="send_alert_title">Kritik Uyarı Gönderme</string>
+    <string name="alert_message_hint">Acil durum mesajınızı buraya yazın…</string>
+    <string name="btn_send_alert">GÖNDER</string>
+    <string name="sending_indicator">Gönderiliyor…</string>
+    <string name="toast_alert_sent">Uyarı gönderildi: %s</string>
+    <string name="toast_select_contact">Lütfen bir alıcı seçin!</string>
+    <string name="toast_enter_message">Lütfen bir mesaj girin!</string>
+    
+    <!-- Alert Status Card -->
+    <string name="alert_status_pending">Durum: Beklemede – Alıcıya ulaşana kadar her 3 dakikada tekrar gönderilir</string>
+    <string name="alert_status_acknowledged">Durum: OKUNDU – Alıcı mesajı gördü</string>
+    <string name="sender_label">Gönderen: %s (%s)</string>
+    <string name="btn_read_stop">Okudum (Durdur)</string>
+    <string name="btn_cancel">İptal Et</string>
+    
+    <!-- Test Mode Info -->
+    <string name="test_mode_info_title">Test Modu Bilgisi</string>
+    <string name="test_mode_info_text">İkinci bir telefon olmadan alıcı tarafındaki tam ekran alarmı ve \'Okudum\'/\'Kapat\' akışını test etmek için:</string>
+    <string name="test_mode_step_1">1. Hızlı Tekrar Modunu açın (üstteki çip)</string>
+    <string name="test_mode_step_2">2. Bir uyarı gönderin</string>
+    <string name="test_mode_step_3">3. Aynı cihazda tam ekran kırmızı alarm ekranını görün</string>
+    
+    <!-- My Code Dialog -->
+    <string name="dialog_my_code_title">Kendi Eşleştirme Kodunuz</string>
+    <string name="dialog_my_code_subtitle">Bu 6 haneli kodu diğer telefondaki \'Kod ile Ekle\' alanına girin:</string>
+    <string name="btn_close">Kapat</string>
+    
+    <!-- Add By Code Dialog -->
+    <string name="dialog_add_code_title">Eşleştirme Kodu Gir</string>
+    <string name="dialog_add_code_hint">Diğer cihazın 6 haneli kodu</string>
+    <string name="dialog_contact_name_hint">İsim (isteğe bağlı)</string>
+    <string name="btn_pair">Eşleştir</string>
+    <string name="btn_cancel_pair">İptal</string>
+    <string name="pairing_error">Eşleştirme başarısız oldu: %s</string>
+    <string name="pairing_success">Eşleştirme başarılı! %s eklendi.</string>
+    <string name="pairing_in_progress">Eşleştiriliyor…</string>
+    
+    <!-- Emergency Alert Screen -->
+    <string name="emergency_warning_title">🔴 KRİTİK ACİL UYARI</string>
+    <string name="retry_status_label">Tekrar Durumu: %d/%d (Her 3 dk)</string>
+    <string name="sender_name_label">GÖNDEREN: %s</string>
+    <string name="send_time_label">Gönderim Saati: %s</string>
+    <string name="btn_i_read">Okudum</string>
+    <string name="btn_dismiss_keep">Kapat (Tekrarlar Sürsün)</string>
+    <string name="alert_icon_desc">Kritik Acil Uyarı</string>
+    
+    <!-- Fast Retry Mode -->
+    <string name="fast_retry_label_short">%dsn Test</string>
+    <string name="standard_retry_label_short">%dk Standart</string>
+    <string name="account_logout">Hesap / Çıkış</string>
+    <string name="logout_confirm_title">Çıkış Yap</string>
+    <string name="logout_confirm_msg">Bu cihazdan çıkmak istediğinize emin misiniz? Tüm veriler silinecek.</string>
+    <string name="btn_logout">Çıkış Yap</string>
+    <string name="btn_go_back">Geri Dön</string>
 </resources>

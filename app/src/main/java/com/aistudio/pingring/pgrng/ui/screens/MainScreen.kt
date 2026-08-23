@@ -71,6 +71,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -79,6 +80,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.aistudio.pingring.pgrng.R
 import com.aistudio.pingring.pgrng.data.model.AlertEntity
 import com.aistudio.pingring.pgrng.data.model.AlertStatus
 import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
@@ -174,7 +176,7 @@ fun MainScreen(
                         onClick = { viewModel.toggleFastRetryMode() },
                         label = {
                             Text(
-                                text = if (fastRetryMode) "10sn Test" else "3dk Standart",
+                                text = if (fastRetryMode) stringResource(R.string.fast_retry_label_short, 10) else stringResource(R.string.standard_retry_label_short, 3),
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -201,7 +203,7 @@ fun MainScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Person,
-                            contentDescription = "Hesap / Çıkış",
+                            contentDescription = stringResource(R.string.account_logout),
                             tint = Color(0xFF616161),
                             modifier = Modifier.size(20.dp)
                         )
@@ -235,13 +237,13 @@ fun MainScreen(
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = "Cihaz Eşleştirme & Kimlik",
+                            text = stringResource(R.string.header_pairing_title),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF212121)
                         )
                         Text(
-                            text = "Karşı cihazın eşleştirme kodunu girin. Kod girildiğinde iki cihaz da anında birbirini ekler.",
+                            text = stringResource(R.string.header_pairing_subtitle),
                             fontSize = 13.sp,
                             color = Color(0xFF757575),
                             modifier = Modifier.padding(top = 2.dp, bottom = 12.dp)
@@ -260,7 +262,7 @@ fun MainScreen(
                         ) {
                             Column {
                                 Text(
-                                    text = "BU CİHAZIN KODU",
+                                    text = stringResource(R.string.my_device_code_label),
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color(0xFF757575)
@@ -281,14 +283,14 @@ fun MainScreen(
                                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                         val clip = ClipData.newPlainText("Ping-Ring Kodu", myCode)
                                         clipboard.setPrimaryClip(clip)
-                                        viewModel.toastMessage.value = "Kendi kodunuz kopyalandı: $myCode"
+                                        viewModel.toastMessage.value = context.getString(R.string.toast_code_copied, myCode)
                                     },
                                     shape = RoundedCornerShape(6.dp),
                                     modifier = Modifier.height(36.dp)
                                 ) {
                                     Icon(Icons.Filled.ContentCopy, contentDescription = null, modifier = Modifier.size(14.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("Kopyala", fontSize = 11.sp)
+                                    Text(stringResource(R.string.btn_copy), fontSize = 11.sp)
                                 }
 
                                 Button(
@@ -304,7 +306,7 @@ fun MainScreen(
                                 ) {
                                     Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(16.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("Kod ile Ekle", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    Text(stringResource(R.string.btn_add_by_code), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -331,7 +333,7 @@ fun MainScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Eşleşen Cihazlar (${contacts.size})",
+                                text = stringResource(R.string.paired_devices_title, contacts.size),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF212121)
@@ -364,7 +366,7 @@ fun MainScreen(
                                     )
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
-                                        text = "Henüz eşleşen bir cihaz yok.\nYukarıdaki 'Kod ile Ekle' butonuna basarak diğer telefonun 6 haneli kodunu girin.",
+                                        text = stringResource(R.string.no_paired_devices),
                                         fontSize = 13.sp,
                                         color = Color(0xFF616161),
                                         textAlign = TextAlign.Center
@@ -444,7 +446,7 @@ fun MainScreen(
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.Filled.Delete,
-                                                    contentDescription = "Eşleşmeyi Sil",
+                                                    contentDescription = stringResource(R.string.btn_delete_pair),
                                                     tint = Color(0xFF9E9E9E),
                                                     modifier = Modifier.size(18.dp)
                                                 )
@@ -472,7 +474,7 @@ fun MainScreen(
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = "Kritik Uyarı Gönderme",
+                            text = stringResource(R.string.send_alert_title),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF212121)
@@ -495,7 +497,7 @@ fun MainScreen(
                             value = messageText,
                             onValueChange = { viewModel.onMessageTextChanged(it) },
                             label = { Text("Kritik Acil Durum Mesajı") },
-                            placeholder = { Text("Örn: ACİL! Evde yangın/su baskını var, acilen ara!") },
+                            placeholder = { Text(stringResource(R.string.alert_message_hint)) },
                             supportingText = {
                                 Text(
                                     text = "${messageText.length}/100 karakter",
@@ -538,7 +540,7 @@ fun MainScreen(
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = if (isSendingAlert) "GÖNDERİLİYOR..." else "🔴 KRİTİK UYARI GÖNDER",
+                                    text = if (isSendingAlert) stringResource(R.string.sending_indicator) else stringResource(R.string.btn_send_alert),
                                     fontSize = 17.sp,
                                     fontWeight = FontWeight.Black,
                                     letterSpacing = 0.5.sp
@@ -688,14 +690,14 @@ fun MainScreen(
                                             onClick = { viewModel.acknowledgeAlert(alert.id) },
                                             modifier = Modifier.height(32.dp)
                                         ) {
-                                            Text("Okudum (Durdur)", fontSize = 12.sp, color = Color(0xFF388E3C), fontWeight = FontWeight.Bold)
+                                            Text(stringResource(R.string.btn_read_stop), fontSize = 12.sp, color = Color(0xFF388E3C), fontWeight = FontWeight.Bold)
                                         }
                                     } else if (!alert.isIncoming && isPending) {
                                         TextButton(
                                             onClick = { viewModel.cancelOutgoingAlert(alert.id) },
                                             modifier = Modifier.height(32.dp)
                                         ) {
-                                            Text("İptal Et", fontSize = 12.sp, color = Color(0xFF757575))
+                                            Text(stringResource(R.string.btn_cancel), fontSize = 12.sp, color = Color(0xFF757575))
                                         }
                                     }
                                 }
@@ -724,7 +726,7 @@ fun MainScreen(
                             color = Color(0xFF33691E)
                         )
                         Text(
-                            text = "İkinci bir telefon olmadan alıcı tarafındaki tam ekran alarmı ve 'Okudum'/'Kapat' akışını test etmek için:",
+                            text = stringResource(R.string.test_mode_info_text),
                             fontSize = 11.sp,
                             color = Color(0xFF558B2F),
                             modifier = Modifier.padding(top = 2.dp, bottom = 6.dp)
@@ -764,7 +766,7 @@ fun MainScreen(
             onDismissRequest = { viewModel.showMyCodeDialog.value = false },
             title = {
                 Text(
-                    text = "Kendi Eşleştirme Kodunuz",
+                    text = stringResource(R.string.dialog_my_code_title),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -775,7 +777,7 @@ fun MainScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Bu 6 haneli kodu diğer telefondaki 'Kod ile Ekle' alanına girin:",
+                        text = stringResource(R.string.dialog_my_code_subtitle),
                         fontSize = 13.sp,
                         color = Color(0xFF616161),
                         textAlign = TextAlign.Center
@@ -860,7 +862,7 @@ fun MainScreen(
             text = {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "Diğer cihazın ekranında görünen 6 haneli eşleştirme kodunu girin (Örnek: A7K9-42):",
+                        text = stringResource(R.string.dialog_add_code_hint),
                         fontSize = 13.sp,
                         color = Color(0xFF616161),
                         modifier = Modifier.padding(bottom = 12.dp)
@@ -913,7 +915,7 @@ fun MainScreen(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text("Doğrulanıyor...")
                     } else {
-                        Text("Eşleştir")
+                        Text(stringResource(R.string.btn_pair))
                     }
                 }
             },
@@ -922,7 +924,7 @@ fun MainScreen(
                     onClick = { viewModel.showAddByCodeDialog.value = false },
                     enabled = !isPairingInProgress
                 ) {
-                    Text("İptal")
+                    Text(stringResource(R.string.btn_cancel_pair))
                 }
             }
         )
@@ -982,7 +984,7 @@ fun MainScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showLogoutDialog = false }) {
-                    Text("Kapat")
+                    Text(stringResource(R.string.btn_close))
                 }
             }
         )

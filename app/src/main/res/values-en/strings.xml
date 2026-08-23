@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Ping-Ring</string>
+    
+    <!-- Main Screen - Header -->
+    <string name="header_pairing_title">Device Pairing &amp; Identity</string>
+    <string name="header_pairing_subtitle">Enter the pairing code of the other device. When entered, both devices will instantly add each other.</string>
+    <string name="my_device_code_label">THIS DEVICE CODE</string>
+    <string name="btn_copy">Copy</string>
+    <string name="btn_add_by_code">Add by Code</string>
+    <string name="toast_code_copied">Your code copied: %s</string>
+    
+    <!-- Paired Contacts Section -->
+    <string name="paired_devices_title">Paired Devices (%d)</string>
+    <string name="no_paired_devices">No paired devices yet.\nTap \'Add by Code\' above and enter the 6-digit code from the other phone.</string>
+    <string name="btn_delete_pair">Delete Pair</string>
+    
+    <!-- Send Alert Section -->
+    <string name="send_alert_title">Send Critical Alert</string>
+    <string name="alert_message_hint">Write your emergency message here…</string>
+    <string name="btn_send_alert">SEND</string>
+    <string name="sending_indicator">Sending…</string>
+    <string name="toast_alert_sent">Alert sent: %s</string>
+    <string name="toast_select_contact">Please select a recipient!</string>
+    <string name="toast_enter_message">Please enter a message!</string>
+    
+    <!-- Alert Status Card -->
+    <string name="alert_status_pending">Status: Pending – Will retry every 3 minutes until received</string>
+    <string name="alert_status_acknowledged">Status: READ – Recipient has seen the message</string>
+    <string name="sender_label">From: %s (%s)</string>
+    <string name="btn_read_stop">I Read This (Stop)</string>
+    <string name="btn_cancel">Cancel</string>
+    
+    <!-- Test Mode Info -->
+    <string name="test_mode_info_title">Test Mode Info</string>
+    <string name="test_mode_info_text">To test the full-screen alarm and \'I Read\'/\'Dismiss\' flow without a second phone:</string>
+    <string name="test_mode_step_1">1. Enable Fast Retry Mode (top chip)</string>
+    <string name="test_mode_step_2">2. Send an alert</string>
+    <string name="test_mode_step_3">3. See the full-screen red alarm on the same device</string>
+    
+    <!-- My Code Dialog -->
+    <string name="dialog_my_code_title">Your Pairing Code</string>
+    <string name="dialog_my_code_subtitle">Enter this 6-digit code in the \'Add by Code\' field on the other phone:</string>
+    <string name="btn_close">Close</string>
+    
+    <!-- Add By Code Dialog -->
+    <string name="dialog_add_code_title">Enter Pairing Code</string>
+    <string name="dialog_add_code_hint">6-digit code of other device</string>
+    <string name="dialog_contact_name_hint">Name (optional)</string>
+    <string name="btn_pair">Pair</string>
+    <string name="btn_cancel_pair">Cancel</string>
+    <string name="pairing_error">Pairing failed: %s</string>
+    <string name="pairing_success">Pairing successful! %s added.</string>
+    <string name="pairing_in_progress">Pairing…</string>
+    
+    <!-- Emergency Alert Screen -->
+    <string name="emergency_warning_title">🔴 CRITICAL EMERGENCY ALERT</string>
+    <string name="retry_status_label">Retry Status: %d/%d (Every 3 min)</string>
+    <string name="sender_name_label">FROM: %s</string>
+    <string name="send_time_label">Sent at: %s</string>
+    <string name="btn_i_read">I Read This</string>
+    <string name="btn_dismiss_keep">Dismiss (Keep Retrying)</string>
+    <string name="alert_icon_desc">Critical Emergency Alert</string>
+    
+    <!-- Fast Retry Mode -->
+    <string name="fast_retry_label_short">%ds Test</string>
+    <string name="standard_retry_label_short">%dm Standard</string>
+    <string name="account_logout">Account / Logout</string>
+    <string name="logout_confirm_title">Logout</string>
+    <string name="logout_confirm_msg">Are you sure you want to logout from this device? All data will be deleted.</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_go_back">Go Back</string>
+</resources>
