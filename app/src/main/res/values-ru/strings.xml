@@ -44,7 +44,7 @@
     
     <!-- Send Alert Section -->
     <string name="send_alert_title">Отправить критическое оповещение</string>
-    <string name="send_alert_recipient_selected">Выбранный получатель: %s (%s)</string>
+    <string name="send_alert_recipient_selected">Выбранный получатель: %1$s (%2$s)</string>
     <string name="send_alert_select_prompt">Пожалуйста, выберите сопряженный контакт выше для отправки сигнала тревоги.</string>
     <string name="alert_message_label">Критическое экстренное сообщение</string>
     <string name="alert_message_hint">Напишите экстренное сообщение здесь…</string>
@@ -68,9 +68,9 @@
     <string name="no_active_alerts">В настоящее время нет активных оповещений.</string>
     <string name="alert_incoming_label">🚨 ВХОДЯЩАЯ КРИТИЧЕСКАЯ ТРЕВОГА</string>
     <string name="alert_outgoing_label">📤 ИСХОДЯЩАЯ ТРЕВОГА (ОЖИДАНИЕ)</string>
-    <string name="retry_count_label">Повтор: %d/%d • %s</string>
-    <string name="alert_sender_label">От: %s (%s)</string>
-    <string name="alert_target_label">Получатель: %s (%s)</string>
+    <string name="retry_count_label">Повтор: %1$d/%2$d • %3$s</string>
+    <string name="alert_sender_label">От: %1$s (%2$s)</string>
+    <string name="alert_target_label">Получатель: %1$s (%2$s)</string>
     <string name="alert_status_alarm_ringing">Статус: Тревога звучит (повтор 3 мин активен)</string>
     <string name="alert_status_waiting_read">Статус: Ожидание подтверждения получателем</string>
     <string name="alert_status_acknowledged">Статус: ПРОЧИТАНО – Получатель увидел сообщение</string>
@@ -103,13 +103,13 @@
     <string name="pairing_error">Сопряжение не удалось: %s</string>
     <string name="pairing_error_invalid_code">Пожалуйста, введите действительный 6-значный код сопряжения (напр. A7K9-42)</string>
     <string name="pairing_error_own_code">Вы не можете добавить код сопряжения вашего собственного устройства.</string>
-    <string name="pairing_error_user_not_found">Пользователь с кодом '%s' не найден. Пожалуйста, убедитесь, что другая сторона открыла приложение и правильно ввела код.</string>
+    <string name="pairing_error_user_not_found">Пользователь с кодом \'%s\' не найден. Пожалуйста, убедитесь, что другая сторона открыла приложение и правильно ввела код.</string>
     <string name="pairing_success">Сопряжение успешно! %s добавлен.</string>
     <string name="pairing_in_progress">Сопряжение…</string>
     
     <!-- Emergency Alert Screen -->
     <string name="emergency_warning_title">🔴 КРИТИЧЕСКОЕ ЭКСТРЕННОЕ ОПОВЕЩЕНИЕ</string>
-    <string name="retry_status_label">Статус повтора: %d/%d (Каждые 3 мин)</string>
+    <string name="retry_status_label">Статус повтора: %1$d/%2$d (Каждые 3 мин)</string>
     <string name="sender_name_label">ОТ: %s</string>
     <string name="send_time_label">Время отправки: %s</string>
     <string name="btn_i_read">Прочитано (Стоп)</string>

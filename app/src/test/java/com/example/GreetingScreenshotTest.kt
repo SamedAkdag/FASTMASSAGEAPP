@@ -24,7 +24,11 @@ class GreetingScreenshotTest {
   fun greeting_screenshot() {
     composeTestRule.setContent {
       MyApplicationTheme {
-        AuthScreen(onLoginSuccess = { _, _ -> })
+        AuthScreen(
+          currentLanguage = com.aistudio.pingring.pgrng.data.model.AppLanguage.TURKISH,
+          onLanguageSelected = {},
+          onLoginSuccess = { _, _ -> }
+        )
       }
     }
 

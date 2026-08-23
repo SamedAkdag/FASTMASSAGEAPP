@@ -44,7 +44,7 @@
     
     <!-- Send Alert Section -->
     <string name="send_alert_title">Send Critical Alert</string>
-    <string name="send_alert_recipient_selected">Selected Recipient: %s (%s)</string>
+    <string name="send_alert_recipient_selected">Selected Recipient: %1$s (%2$s)</string>
     <string name="send_alert_select_prompt">Please select a paired contact above to send an emergency alert.</string>
     <string name="alert_message_label">Critical Emergency Message</string>
     <string name="alert_message_hint">Write your emergency message here…</string>
@@ -68,9 +68,9 @@
     <string name="no_active_alerts">No pending active alerts right now.</string>
     <string name="alert_incoming_label">🚨 INCOMING CRITICAL ALERT</string>
     <string name="alert_outgoing_label">📤 OUTGOING ALERT (WAITING FOR RECIPIENT)</string>
-    <string name="retry_count_label">Retry: %d/%d • %s</string>
-    <string name="alert_sender_label">From: %s (%s)</string>
-    <string name="alert_target_label">Target Recipient: %s (%s)</string>
+    <string name="retry_count_label">Retry: %1$d/%2$d • %3$s</string>
+    <string name="alert_sender_label">From: %1$s (%2$s)</string>
+    <string name="alert_target_label">Target Recipient: %1$s (%2$s)</string>
     <string name="alert_status_alarm_ringing">Status: Alarm Ringing (3 min retry active)</string>
     <string name="alert_status_waiting_read">Status: Waiting for recipient to acknowledge</string>
     <string name="alert_status_acknowledged">Status: READ – Recipient has seen the message</string>
@@ -102,14 +102,14 @@
     <string name="pairing_verifying">Verifying...</string>
     <string name="pairing_error">Pairing failed: %s</string>
     <string name="pairing_error_invalid_code">Please enter a valid 6-digit pairing code (e.g. A7K9-42)</string>
-    <string name="pairing_error_own_code">You cannot add your own device's pairing code.</string>
-    <string name="pairing_error_user_not_found">No user found with code '%s'. Please ensure the other party has opened the app and entered the code correctly.</string>
+    <string name="pairing_error_own_code">You cannot add your own device\'s pairing code.</string>
+    <string name="pairing_error_user_not_found">No user found with code \'%s\'. Please ensure the other party has opened the app and entered the code correctly.</string>
     <string name="pairing_success">Pairing successful! %s added.</string>
     <string name="pairing_in_progress">Pairing…</string>
     
     <!-- Emergency Alert Screen -->
     <string name="emergency_warning_title">🔴 CRITICAL EMERGENCY ALERT</string>
-    <string name="retry_status_label">Retry Status: %d/%d (Every 3 min)</string>
+    <string name="retry_status_label">Retry Status: %1$d/%2$d (Every 3 min)</string>
     <string name="sender_name_label">FROM: %s</string>
     <string name="send_time_label">Sent at: %s</string>
     <string name="btn_i_read">I Read This (Stop)</string>

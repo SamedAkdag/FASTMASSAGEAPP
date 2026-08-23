@@ -44,7 +44,7 @@
     
     <!-- Send Alert Section -->
     <string name="send_alert_title">Kritik Uyarı Gönderme</string>
-    <string name="send_alert_recipient_selected">Seçili Alıcı: %s (%s)</string>
+    <string name="send_alert_recipient_selected">Seçili Alıcı: %1$s (%2$s)</string>
     <string name="send_alert_select_prompt">Lütfen mesaj göndermek için yukarıdan eşleşen bir kişi seçin.</string>
     <string name="alert_message_label">Kritik Acil Durum Mesajı</string>
     <string name="alert_message_hint">Acil durum mesajınızı buraya yazın…</string>
@@ -68,9 +68,9 @@
     <string name="no_active_alerts">Şu anda bekleyen aktif bir uyarı yok.</string>
     <string name="alert_incoming_label">🚨 GELEN KRİTİK UYARI</string>
     <string name="alert_outgoing_label">📤 GİDEN UYARI (ALICI BEKLENİYOR)</string>
-    <string name="retry_count_label">Tekrar: %d/%d • %s</string>
-    <string name="alert_sender_label">Gönderen: %s (%s)</string>
-    <string name="alert_target_label">Hedef Alıcı: %s (%s)</string>
+    <string name="retry_count_label">Tekrar: %1$d/%2$d • %3$s</string>
+    <string name="alert_sender_label">Gönderen: %1$s (%2$s)</string>
+    <string name="alert_target_label">Hedef Alıcı: %1$s (%2$s)</string>
     <string name="alert_status_alarm_ringing">Durum: Alarm Çalıyor (3 dk tekrar aktif)</string>
     <string name="alert_status_waiting_read">Durum: Karşı tarafın okuması bekleniyor</string>
     <string name="alert_status_acknowledged">Durum: OKUNDU – Alıcı mesajı gördü</string>
@@ -101,12 +101,15 @@
     <string name="btn_cancel_pair">İptal</string>
     <string name="pairing_verifying">Doğrulanıyor...</string>
     <string name="pairing_error">Eşleştirme başarısız oldu: %s</string>
+    <string name="pairing_error_invalid_code">Lütfen geçerli bir 6 haneli eşleştirme kodu girin (Örn: A7K9-42)</string>
+    <string name="pairing_error_own_code">Kendi cihazınızın eşleştirme kodunu ekleyemezsiniz.</string>
+    <string name="pairing_error_user_not_found">\'%s\' koduna sahip kayıtlı bir kullanıcı bulunamadı.\nLütfen karşı tarafın uygulamayı açtığından ve kodunu doğru girdiğinizden emin olun.</string>
     <string name="pairing_success">Eşleştirme başarılı! %s eklendi.</string>
     <string name="pairing_in_progress">Eşleştiriliyor…</string>
     
     <!-- Emergency Alert Screen -->
     <string name="emergency_warning_title">🔴 KRİTİK ACİL UYARI</string>
-    <string name="retry_status_label">Tekrar Durumu: %d/%d (Her 3 dk)</string>
+    <string name="retry_status_label">Tekrar Durumu: %1$d/%2$d (Her 3 dk)</string>
     <string name="sender_name_label">GÖNDEREN: %s</string>
     <string name="send_time_label">Gönderim Saati: %s</string>
     <string name="btn_i_read">Okudum (Durdur)</string>

@@ -99,8 +99,8 @@ import com.aistudio.pingring.pgrng.ui.theme.TextSecondary
  */
 @Composable
 fun AuthScreen(
-    currentLanguage: AppLanguage,
-    onLanguageSelected: (AppLanguage) -> Unit,
+    currentLanguage: AppLanguage = AppLanguage.TURKISH,
+    onLanguageSelected: (AppLanguage) -> Unit = {},
     onLoginSuccess: (phoneNumber: String, displayName: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
