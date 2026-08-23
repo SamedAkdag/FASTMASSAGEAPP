@@ -2,7 +2,10 @@ package com.aistudio.pingring.pgrng.data.remote
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import kotlin.math.min
 import okhttp3.Dns
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -65,9 +68,9 @@ class CloudRelayService {
         .protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         .connectionPool(okhttp3.ConnectionPool(5, 30, TimeUnit.SECONDS))
         .dns(ipv4PreferringDns)
-        .connectTimeout(8, TimeUnit.SECONDS)
-        .readTimeout(10, TimeUnit.SECONDS)
-        .writeTimeout(8, TimeUnit.SECONDS)
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
         .retryOnConnectionFailure(true)
         .build()
 
@@ -75,8 +78,9 @@ class CloudRelayService {
         .protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         .connectionPool(okhttp3.ConnectionPool(2, 5, TimeUnit.MINUTES))
         .dns(ipv4PreferringDns)
-        .connectTimeout(10, TimeUnit.SECONDS)
+        .connectTimeout(25, TimeUnit.SECONDS)
         .readTimeout(0, TimeUnit.MILLISECONDS) // infinite for SSE stream
+        .pingInterval(20, TimeUnit.SECONDS) // send keepalive pings
         .retryOnConnectionFailure(true)
         .build()
 
@@ -407,6 +411,7 @@ class CloudRelayService {
 
     /**
      * Streams incoming events continuously from ntfy via Server-Sent Events (SSE).
+     * Includes automatic reconnection, exponential backoff, and SSE headers.
      */
     suspend fun listenToInboxStream(
         myPairingCode: String,
@@ -416,47 +421,70 @@ class CloudRelayService {
         if (sanitized.isEmpty()) return@withContext
 
         val topic = getInboxTopic(sanitized)
-        // Use live mode for real-time streaming, with poll=1 to get new messages as they arrive
-        val url = "https://ntfy.sh/$topic/json?live"
+        val url = "https://ntfy.sh/$topic/json"
 
-        try {
-            val request = Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", "PingRing-App/1.0")
-                .get()
-                .build()
+        var backoffMs = 1000L
+        val maxBackoffMs = 30000L
 
-            Log.d(tag, "Starting SSE stream for topic: $topic")
-            streamingClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) {
-                    Log.w(tag, "SSE stream response code: ${response.code}")
-                    return@withContext
-                }
-                Log.d(tag, "SSE stream connected successfully")
-                val stream = response.body?.byteStream() ?: return@withContext
-                val reader = BufferedReader(InputStreamReader(stream))
+        while (isActive) {
+            try {
+                val request = Request.Builder()
+                    .url(url)
+                    .addHeader("User-Agent", "PingRing-App/1.0")
+                    .addHeader("Accept", "text/event-stream")
+                    .get()
+                    .build()
 
-                while (true) {
-                    val line = reader.readLine() ?: break
-                    if (line.isNotBlank()) {
-                        try {
-                            val eventObj = JSONObject(line)
-                            if (eventObj.optString("event") == "message") {
-                                val eventId = eventObj.optString("id")
-                                val msgStr = eventObj.optString("message")
-                                val parsed = parseIncomingJson(eventId, msgStr)
-                                if (parsed != null) {
-                                    onEvent(parsed)
+                Log.d(tag, "Connecting SSE stream for topic: $topic (backoff=$backoffMs ms)")
+                streamingClient.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        Log.w(tag, "SSE stream returned HTTP ${response.code}, retrying...")
+                        if (response.code in 400..499 && response.code != 429) {
+                            // Client errors (except rate-limit 429)
+                            delay(5000L)
+                            return@use
+                        }
+                    } else {
+                        // Reset backoff on successful handshake
+                        backoffMs = 1000L
+                        Log.d(tag, "SSE stream connected successfully to topic: $topic")
+
+                        val stream = response.body?.byteStream()
+                        if (stream != null) {
+                            val reader = BufferedReader(InputStreamReader(stream))
+                            while (isActive) {
+                                val line = reader.readLine() ?: break
+                                if (line.isNotBlank()) {
+                                    try {
+                                        val eventObj = JSONObject(line)
+                                        if (eventObj.optString("event") == "message") {
+                                            val eventId = eventObj.optString("id")
+                                            val msgStr = eventObj.optString("message")
+                                            val parsed = parseIncomingJson(eventId, msgStr)
+                                            if (parsed != null) {
+                                                onEvent(parsed)
+                                            }
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.w(tag, "Error parsing stream json line: ${e.message}")
+                                    }
                                 }
                             }
-                        } catch (e: Exception) {
-                            Log.w(tag, "Error parsing stream json line: ${e.message}")
                         }
                     }
                 }
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                Log.d(tag, "SSE stream cancelled normally for $myPairingCode")
+                throw e
+            } catch (e: Exception) {
+                Log.w(tag, "SSE stream disconnected for $myPairingCode: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.w(tag, "Stream disconnected for $myPairingCode (${e.message})")
+
+            // Exponential backoff before reconnecting
+            if (isActive) {
+                delay(backoffMs)
+                backoffMs = min(backoffMs * 2, maxBackoffMs)
+            }
         }
     }
 
