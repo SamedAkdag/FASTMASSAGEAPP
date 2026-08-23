@@ -142,13 +142,13 @@ class PingRingRepository(private val context: Context) {
     suspend fun pairWithCode(rawCode: String, customName: String? = null): Result<PairedContactEntity> {
         val cleanCode = rawCode.filter { it.isLetterOrDigit() }.uppercase()
         if (cleanCode.length < 4) {
-            return Result.failure(IllegalArgumentException("Lütfen geçerli bir 6 haneli eşleştirme kodu girin (Örn: A7K9-42)"))
+            return Result.failure(IllegalArgumentException("PAIRING_ERROR_INVALID_CODE"))
         }
 
         val formattedCode = cloudRelay.formatPairingCode(cleanCode)
         val currentUser = userDao.getCurrentUser()
         if (currentUser != null && cleanCode == cloudRelay.sanitizeCode(currentUser.pairingCode)) {
-            return Result.failure(IllegalArgumentException("Kendi cihazınızın eşleştirme kodunu ekleyemezsiniz."))
+            return Result.failure(IllegalArgumentException("PAIRING_ERROR_OWN_CODE"))
         }
 
         // 1. Fetch live profile from cloud relay with retries
@@ -165,7 +165,7 @@ class PingRingRepository(private val context: Context) {
         // Strict verification: If the code is fake or does not exist on the cloud network, reject it!
         if (remoteProfile == null) {
             return Result.failure(
-                IllegalArgumentException("'$formattedCode' koduna sahip kayıtlı bir kullanıcı bulunamadı.\nLütfen karşı tarafın uygulamayı açtığından ve kodunu doğru girdiğinizden emin olun.")
+                IllegalArgumentException("PAIRING_ERROR_USER_NOT_FOUND")
             )
         }
 

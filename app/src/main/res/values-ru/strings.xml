@@ -101,6 +101,9 @@
     <string name="btn_cancel_pair">Отмена</string>
     <string name="pairing_verifying">Проверка...</string>
     <string name="pairing_error">Сопряжение не удалось: %s</string>
+    <string name="pairing_error_invalid_code">Пожалуйста, введите действительный 6-значный код сопряжения (напр. A7K9-42)</string>
+    <string name="pairing_error_own_code">Вы не можете добавить код сопряжения вашего собственного устройства.</string>
+    <string name="pairing_error_user_not_found">Пользователь с кодом '%s' не найден. Пожалуйста, убедитесь, что другая сторона открыла приложение и правильно ввела код.</string>
     <string name="pairing_success">Сопряжение успешно! %s добавлен.</string>
     <string name="pairing_in_progress">Сопряжение…</string>
     

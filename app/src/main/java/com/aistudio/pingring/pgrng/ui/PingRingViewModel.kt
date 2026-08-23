@@ -138,7 +138,13 @@ class PingRingViewModel(application: Application) : AndroidViewModel(application
                 showAddByCodeDialog.value = false
                 toastMessage.value = "${contact.name} (${contact.pairingCode}) başarıyla doğrulandı ve eşleştirildi!"
             }.onFailure { error ->
-                pairingError.value = error.message ?: "Eşleştirme başarısız oldu."
+                val errorMsg = when (error.message) {
+                    "PAIRING_ERROR_INVALID_CODE" -> "pairing_error_invalid_code"
+                    "PAIRING_ERROR_OWN_CODE" -> "pairing_error_own_code"
+                    "PAIRING_ERROR_USER_NOT_FOUND" -> "pairing_error_user_not_found"
+                    else -> "pairing_error"
+                }
+                pairingError.value = errorMsg
             }
         }
     }

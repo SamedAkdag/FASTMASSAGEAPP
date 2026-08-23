@@ -105,7 +105,7 @@ fun AuthScreen(
     modifier: Modifier = Modifier
 ) {
     var phoneNumber by remember { mutableStateOf("+90 555 123 45 67") }
-    var displayName by remember { mutableStateOf("Kullanıcı") }
+    var displayName by remember { mutableStateOf("") }
     var phoneError by remember { mutableStateOf<String?>(null) }
     val focusManager = LocalFocusManager.current
 
