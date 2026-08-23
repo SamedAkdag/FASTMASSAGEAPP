@@ -101,6 +101,9 @@
     <string name="btn_cancel_pair">Cancel</string>
     <string name="pairing_verifying">Verifying...</string>
     <string name="pairing_error">Pairing failed: %s</string>
+    <string name="pairing_error_invalid_code">Please enter a valid 6-digit pairing code (e.g. A7K9-42)</string>
+    <string name="pairing_error_own_code">You cannot add your own device's pairing code.</string>
+    <string name="pairing_error_user_not_found">No user found with code '%s'. Please ensure the other party has opened the app and entered the code correctly.</string>
     <string name="pairing_success">Pairing successful! %s added.</string>
     <string name="pairing_in_progress">Pairing…</string>
     

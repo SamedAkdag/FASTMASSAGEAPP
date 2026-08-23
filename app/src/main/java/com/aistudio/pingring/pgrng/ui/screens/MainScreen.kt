@@ -1031,7 +1031,22 @@ fun MainScreen(
                         placeholder = { Text("A7K9-42") },
                         singleLine = true,
                         isError = pairingError != null,
-                        supportingText = pairingError?.let { { Text(it, color = MaterialTheme.colorScheme.error) } },
+                        supportingText = pairingError?.let { errKey ->
+                            {
+                                val resId = context.resources.getIdentifier(errKey, "string", context.packageName)
+                                val displayMsg = if (resId != 0 && errKey.startsWith("pairing_error_")) {
+                                    // For user-not-found error, we need to format with the code
+                                    if (errKey == "pairing_error_user_not_found") {
+                                        context.getString(resId, inputPairingCode)
+                                    } else {
+                                        context.getString(resId)
+                                    }
+                                } else {
+                                    context.getString(R.string.pairing_error, errKey)
+                                }
+                                Text(displayMsg, color = MaterialTheme.colorScheme.error)
+                            }
+                        },
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Characters,
                             imeAction = ImeAction.Next

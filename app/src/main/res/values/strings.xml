@@ -101,6 +101,9 @@
     <string name="btn_cancel_pair">İptal</string>
     <string name="pairing_verifying">Doğrulanıyor...</string>
     <string name="pairing_error">Eşleştirme başarısız oldu: %s</string>
+    <string name="pairing_error_invalid_code">Lütfen geçerli bir 6 haneli eşleştirme kodu girin (Örn: A7K9-42)</string>
+    <string name="pairing_error_own_code">Kendi cihazınızın eşleştirme kodunu ekleyemezsiniz.</string>
+    <string name="pairing_error_user_not_found">\'%s\' koduna sahip kayıtlı bir kullanıcı bulunamadı.\nLütfen karşı tarafın uygulamayı açtığından ve kodunu doğru girdiğinizden emin olun.</string>
     <string name="pairing_success">Eşleştirme başarılı! %s eklendi.</string>
     <string name="pairing_in_progress">Eşleştiriliyor…</string>
     
