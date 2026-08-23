@@ -1,9 +1,11 @@
 package com.aistudio.pingring.pgrng.ui
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.aistudio.pingring.pgrng.data.model.AlertEntity
+import com.aistudio.pingring.pgrng.data.model.AppLanguage
 import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
 import com.aistudio.pingring.pgrng.data.model.UserEntity
 import com.aistudio.pingring.pgrng.data.repository.PingRingRepository
@@ -22,8 +24,21 @@ sealed interface UiEvent {
 class PingRingViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = PingRingRepository.getInstance(application)
+    private val prefs = application.getSharedPreferences("ping_ring_settings", Context.MODE_PRIVATE)
 
     val isInitialLoading = MutableStateFlow(true)
+
+    // Language State
+    private val _currentLanguage = MutableStateFlow(
+        AppLanguage.fromCode(prefs.getString("selected_lang", "tr") ?: "tr")
+    )
+    val currentLanguage: StateFlow<AppLanguage> = _currentLanguage.asStateFlow()
+    val showLanguageDialog = MutableStateFlow(false)
+
+    fun setLanguage(language: AppLanguage) {
+        _currentLanguage.value = language
+        prefs.edit().putString("selected_lang", language.code).apply()
+    }
 
     val currentUser: StateFlow<UserEntity?> = repository.getCurrentUserFlow()
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)

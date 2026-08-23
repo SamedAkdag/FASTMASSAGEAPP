@@ -13,32 +13,53 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme =
   darkColorScheme(
-    primary = EmergencyRed,
-    secondary = EmergencyDarkRed,
-    tertiary = EmergencyBrightRed,
-    background = DarkCharcoal,
-    surface = Color(0xFF2C2C2C),
+    primary = CrimsonBright,
     onPrimary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White
+    primaryContainer = CrimsonDark,
+    onPrimaryContainer = CrimsonLight,
+    secondary = Color(0xFF94A3B8),
+    onSecondary = SlateDark,
+    secondaryContainer = SlateMedium,
+    onSecondaryContainer = Color(0xFFF1F5F9),
+    tertiary = StatusInfo,
+    onTertiary = Color.White,
+    background = SlateDarker,
+    onBackground = TextOnDark,
+    surface = SlateMedium,
+    onSurface = TextOnDark,
+    surfaceVariant = SlateBorderDark,
+    onSurfaceVariant = TextSecondaryOnDark,
+    outline = SlateBorderDark,
+    error = CrimsonBright,
+    onError = Color.White
   )
 
 private val LightColorScheme =
   lightColorScheme(
-    primary = EmergencyRed,
-    secondary = EmergencyDarkRed,
-    tertiary = EmergencyBrightRed,
-    background = LightSurface,
-    surface = Color.White,
+    primary = CrimsonPrimary,
     onPrimary = Color.White,
+    primaryContainer = CrimsonLight,
+    onPrimaryContainer = CrimsonDark,
+    secondary = SlateMedium,
+    onSecondary = Color.White,
+    secondaryContainer = Color(0xFFF1F5F9),
+    onSecondaryContainer = SlateDark,
+    tertiary = StatusInfo,
+    onTertiary = Color.White,
+    background = SlateLight,
     onBackground = TextPrimary,
-    onSurface = TextPrimary
+    surface = SlateCard,
+    onSurface = TextPrimary,
+    surfaceVariant = Color(0xFFF8FAFC),
+    onSurfaceVariant = TextSecondary,
+    outline = SlateBorder,
+    error = CrimsonPrimary,
+    onError = Color.White
   )
 
 @Composable
 fun MyApplicationTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
-  // Keep consistent alert theme by default
   dynamicColor: Boolean = false,
   content: @Composable () -> Unit,
 ) {
@@ -48,7 +69,6 @@ fun MyApplicationTheme(
         val context = LocalContext.current
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
       }
-
       darkTheme -> DarkColorScheme
       else -> LightColorScheme
     }

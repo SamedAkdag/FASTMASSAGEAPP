@@ -5,10 +5,12 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,18 +20,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import com.aistudio.pingring.pgrng.data.model.AppLanguage
 import com.aistudio.pingring.pgrng.ui.PingRingViewModel
 import com.aistudio.pingring.pgrng.ui.screens.AuthScreen
 import com.aistudio.pingring.pgrng.ui.screens.EmergencyAlertScreen
 import com.aistudio.pingring.pgrng.ui.screens.MainScreen
 import com.aistudio.pingring.pgrng.ui.theme.MyApplicationTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
@@ -42,15 +48,41 @@ class MainActivity : ComponentActivity() {
         handleIntent(intent)
 
         setContent {
-            MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    PingRingApp(
-                        viewModel = viewModel,
-                        onEmergencyAlertActive = { setupLockScreenFlags() }
-                    )
+            val currentLanguage by viewModel.currentLanguage.collectAsState()
+            val currentLocale = remember(currentLanguage) {
+                Locale(currentLanguage.code)
+            }
+            val baseContext = LocalContext.current
+            val localizedContext = remember(currentLocale, baseContext) {
+                val config = Configuration(baseContext.resources.configuration)
+                config.setLocale(currentLocale)
+                config.setLayoutDirection(currentLocale)
+                baseContext.createConfigurationContext(config)
+            }
+            val configuration = remember(currentLocale, baseContext) {
+                Configuration(baseContext.resources.configuration).apply {
+                    setLocale(currentLocale)
+                    setLayoutDirection(currentLocale)
+                }
+            }
+
+            CompositionLocalProvider(
+                LocalContext provides localizedContext,
+                LocalConfiguration provides configuration,
+                LocalActivityResultRegistryOwner provides this
+            ) {
+                MyApplicationTheme {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        PingRingApp(
+                            viewModel = viewModel,
+                            currentLanguage = currentLanguage,
+                            onLanguageSelected = { lang -> viewModel.setLanguage(lang) },
+                            onEmergencyAlertActive = { setupLockScreenFlags() }
+                        )
+                    }
                 }
             }
         }
@@ -99,6 +131,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PingRingApp(
     viewModel: PingRingViewModel,
+    currentLanguage: AppLanguage,
+    onLanguageSelected: (AppLanguage) -> Unit,
     onEmergencyAlertActive: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -137,14 +171,16 @@ fun PingRingApp(
             onDismiss = { alertId -> viewModel.dismissAlertScreen(alertId) }
         )
     } else if (currentUser == null) {
-        // If not logged in, show Auth Screen
+        // Entrance Screen with Language Switcher & High Craft UI
         AuthScreen(
+            currentLanguage = currentLanguage,
+            onLanguageSelected = onLanguageSelected,
             onLoginSuccess = { phone, name ->
                 viewModel.registerOrLogin(phone, name)
             }
         )
     } else {
-        // Main Screen
+        // Main Dashboard Screen
         MainScreen(
             viewModel = viewModel,
             onOpenEmergencyAlert = { alert ->
