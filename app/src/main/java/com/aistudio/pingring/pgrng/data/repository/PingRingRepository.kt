@@ -58,6 +58,9 @@ class PingRingRepository(private val context: Context) {
 
     // Tracks processed ntfy events to prevent duplicate processing
     private val processedEventIds = Collections.newSetFromMap(ConcurrentHashMap<String, Boolean>())
+    
+    // Tracks acknowledged alert IDs to prevent re-processing after user clicks "Okudum"
+    private val acknowledgedAlertIds = Collections.newSetFromMap(ConcurrentHashMap<String, Boolean>())
 
     private var streamJob: Job? = null
     private var pollJob: Job? = null
@@ -346,6 +349,9 @@ class PingRingRepository(private val context: Context) {
                 )
             }
         }
+        
+        // Mark this alert ID as acknowledged to prevent re-processing from cloud events
+        acknowledgedAlertIds.add(alertId)
     }
 
     fun dismissAlertScreen(alertId: String) {
@@ -431,6 +437,13 @@ class PingRingRepository(private val context: Context) {
         when (event) {
             is RemoteIncomingEvent.NewAlert -> {
                 val raw = event.alert
+                
+                // If this alert was already acknowledged by user, ignore re-transmissions
+                if (acknowledgedAlertIds.contains(raw.alertId)) {
+                    Log.d(tag, "Ignoring re-transmission of already acknowledged alert: ${raw.alertId}")
+                    return
+                }
+                
                 Log.d(tag, "Received NewAlert event: ${raw.alertId} from ${raw.senderName} (${raw.senderPairingCode})")
                 val existing = alertDao.getAlertById(raw.alertId)
                 if (existing == null) {
