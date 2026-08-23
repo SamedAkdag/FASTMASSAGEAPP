@@ -35,15 +35,19 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.aistudio.pingring.pgrng.R
 import com.aistudio.pingring.pgrng.data.model.AlertEntity
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -75,6 +79,7 @@ fun EmergencyAlertScreen(
         label = "pulseScale"
     )
 
+    val context = LocalContext.current
     val timeString = try {
         val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         sdf.format(Date(alert.createdAt))
@@ -109,7 +114,7 @@ fun EmergencyAlertScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Warning,
-                        contentDescription = "Kritik Acil Uyarı",
+                        contentDescription = stringResource(R.string.alert_icon_desc),
                         tint = Color.White,
                         modifier = Modifier
                             .size(72.dp)
@@ -120,7 +125,7 @@ fun EmergencyAlertScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "🔴 KRİTİK ACİL UYARI",
+                    text = stringResource(R.string.emergency_warning_title),
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Black,
                     color = Color.White,
@@ -129,7 +134,7 @@ fun EmergencyAlertScreen(
                 )
 
                 Text(
-                    text = "Tekrar Durumu: ${alert.attemptCount}/${alert.maxAttempts} (Her 3 dk)",
+                    text = stringResource(R.string.retry_status_label, alert.attemptCount, alert.maxAttempts),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White.copy(alpha = 0.9f),
@@ -154,7 +159,7 @@ fun EmergencyAlertScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "GÖNDEREN: ${alert.senderName.uppercase(Locale.getDefault())}",
+                        text = stringResource(R.string.sender_name_label, alert.senderName.uppercase(Locale.getDefault())),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White.copy(alpha = 0.85f),
@@ -190,7 +195,7 @@ fun EmergencyAlertScreen(
 
                     if (timeString.isNotEmpty()) {
                         Text(
-                            text = "Gönderim Saati: $timeString",
+                            text = stringResource(R.string.send_time_label, timeString),
                             fontSize = 13.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             modifier = Modifier.padding(top = 12.dp)
@@ -230,7 +235,7 @@ fun EmergencyAlertScreen(
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                         Text(
-                            text = "Okudum",
+                            text = stringResource(R.string.btn_i_read),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -264,7 +269,7 @@ fun EmergencyAlertScreen(
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                         Text(
-                            text = "Kapat (Tekrarlar Sürsün)",
+                            text = stringResource(R.string.btn_dismiss_keep),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White
