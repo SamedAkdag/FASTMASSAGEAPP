@@ -185,15 +185,37 @@ class PingRingRepository(private val context: Context) {
         contactDao.insertContact(contact)
 
         // 2. Announce to target device over cloud relay so they automatically add us too!
+        // This is the key step for mutual pairing - both devices should have each other in their contact lists
+        // Retry up to 3 times with exponential backoff to ensure the announce reaches the target
         if (currentUser != null) {
             withContext(Dispatchers.IO) {
-                cloudRelay.sendPairAnnounce(
-                    targetPairingCode = formattedCode,
-                    myUserId = currentUser.id,
-                    myDisplayName = currentUser.displayName,
-                    myPhoneNumber = currentUser.phoneNumber,
-                    myPairingCode = currentUser.pairingCode
-                )
+                var announceSuccess = false
+                var retryCount = 0
+                val maxRetries = 3
+                
+                while (!announceSuccess && retryCount < maxRetries) {
+                    val announceResult = cloudRelay.sendPairAnnounce(
+                        targetPairingCode = formattedCode,
+                        myUserId = currentUser.id,
+                        myDisplayName = currentUser.displayName,
+                        myPhoneNumber = currentUser.phoneNumber,
+                        myPairingCode = currentUser.pairingCode
+                    )
+                    
+                    if (announceResult) {
+                        announceSuccess = true
+                        Log.d(tag, "PairAnnounce successfully sent to $formattedCode on attempt ${retryCount + 1}")
+                    } else {
+                        retryCount++
+                        if (retryCount < maxRetries) {
+                            val delayMs = 500L * retryCount // 500ms, 1000ms, 1500ms
+                            Log.w(tag, "PairAnnounce failed, retrying in ${delayMs}ms (attempt $retryCount/$maxRetries)")
+                            delay(delayMs)
+                        } else {
+                            Log.e(tag, "PairAnnounce failed after $maxRetries attempts to $formattedCode")
+                        }
+                    }
+                }
             }
         }
 
@@ -365,14 +387,14 @@ class PingRingRepository(private val context: Context) {
             }
         }
 
-        // 2. Fallback Periodic Polling Loop & Profile Keepalive (Every 20 seconds)
+        // 2. Fallback Periodic Polling Loop & Profile Keepalive (Every 10 seconds for faster pairing)
         pollJob = repositoryScope.launch {
             var iteration = 0
             while (isActive) {
                 val user = userDao.getCurrentUser()
                 if (user != null && user.pairingCode.isNotBlank()) {
-                    // Refresh profile in cloud cache every 5 minutes (every 15 iterations of 20s)
-                    if (iteration % 15 == 0) {
+                    // Refresh profile in cloud cache every 2 minutes (every 12 iterations of 10s)
+                    if (iteration % 12 == 0) {
                         cloudRelay.publishUserProfile(
                             userId = user.id,
                             displayName = user.displayName,
@@ -381,7 +403,7 @@ class PingRingRepository(private val context: Context) {
                         )
                     }
 
-                    // Poll inbox
+                    // Poll inbox - more frequent polling for faster pair announce reception
                     try {
                         val events = cloudRelay.pollInbox(user.pairingCode)
                         if (events.isNotEmpty()) {
@@ -395,7 +417,7 @@ class PingRingRepository(private val context: Context) {
                     }
                 }
                 iteration++
-                delay(20000L)
+                delay(10000L) // Reduced from 20s to 10s for faster pairing response
             }
         }
     }
@@ -468,7 +490,10 @@ class PingRingRepository(private val context: Context) {
                 val profile = event.profile
                 val formattedPairingCode = cloudRelay.formatPairingCode(profile.pairingCode)
                 val existing = contactDao.getContactByPairingCode(formattedPairingCode)
-                if (existing == null && formattedPairingCode != currentUser.pairingCode) {
+                // Sanitize and format both codes for accurate comparison
+                val sanitizedOwnCode = cloudRelay.formatPairingCode(currentUser.pairingCode)
+                if (existing == null && formattedPairingCode != sanitizedOwnCode) {
+                    Log.d(tag, "PairAnnounce received from ${profile.displayName} (${formattedPairingCode}), adding to contacts")
                     contactDao.insertContact(
                         PairedContactEntity(
                             id = profile.userId.ifEmpty { UUID.randomUUID().toString() },
@@ -477,6 +502,10 @@ class PingRingRepository(private val context: Context) {
                             pairingCode = formattedPairingCode
                         )
                     )
+                } else if (existing != null) {
+                    Log.d(tag, "PairAnnounce received but contact already exists for $formattedPairingCode")
+                } else if (formattedPairingCode == sanitizedOwnCode) {
+                    Log.w(tag, "PairAnnounce ignored: received own pairing code $formattedPairingCode")
                 }
             }
 
