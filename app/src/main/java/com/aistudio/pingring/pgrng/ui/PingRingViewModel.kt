@@ -7,6 +7,7 @@ import com.aistudio.pingring.pgrng.data.model.AlertEntity
 import com.aistudio.pingring.pgrng.data.model.PairedContactEntity
 import com.aistudio.pingring.pgrng.data.model.UserEntity
 import com.aistudio.pingring.pgrng.data.repository.PingRingRepository
+import com.aistudio.pingring.pgrng.service.PingRingForegroundService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,7 @@ sealed interface UiEvent {
 
 class PingRingViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = PingRingRepository(application)
+    private val repository = PingRingRepository.getInstance(application)
 
     val isInitialLoading = MutableStateFlow(true)
 
@@ -32,6 +33,9 @@ class PingRingViewModel(application: Application) : AndroidViewModel(application
             repository.getCurrentUserFlow().collect { user ->
                 // Initial load completed once we get the first emission from Room
                 isInitialLoading.value = false
+                if (user != null && user.pairingCode.isNotBlank()) {
+                    PingRingForegroundService.start(getApplication())
+                }
             }
         }
     }
@@ -90,6 +94,7 @@ class PingRingViewModel(application: Application) : AndroidViewModel(application
     fun logout() {
         viewModelScope.launch {
             repository.logout()
+            PingRingForegroundService.stop(getApplication())
             selectedContact.value = null
             toastMessage.value = "Çıkış yapıldı."
         }

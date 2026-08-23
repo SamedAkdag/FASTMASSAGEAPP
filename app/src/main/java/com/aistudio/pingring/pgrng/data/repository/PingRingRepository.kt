@@ -29,6 +29,17 @@ import kotlin.random.Random
 
 class PingRingRepository(private val context: Context) {
 
+    companion object {
+        @Volatile
+        private var instance: PingRingRepository? = null
+
+        fun getInstance(context: Context): PingRingRepository {
+            return instance ?: synchronized(this) {
+                instance ?: PingRingRepository(context.applicationContext).also { instance = it }
+            }
+        }
+    }
+
     private val tag = "PingRingRepository"
     private val db = AppDatabase.getInstance(context)
     private val userDao = db.userDao()
@@ -327,12 +338,13 @@ class PingRingRepository(private val context: Context) {
         notificationManager.cancelNotification(alertId)
     }
 
-    private fun startCloudSync() {
+    fun startCloudSync() {
         streamJob?.cancel()
         pollJob?.cancel()
 
-        // 1. Continuous SSE Real-Time Stream Listener
+        // 1. Continuous SSE Real-Time Stream Listener with exponential backoff
         streamJob = repositoryScope.launch {
+            var backoffMs = 3000L
             while (isActive) {
                 val user = userDao.getCurrentUser()
                 if (user != null && user.pairingCode.isNotBlank()) {
@@ -342,26 +354,32 @@ class PingRingRepository(private val context: Context) {
                             Log.d(tag, "Event received from stream: ${event::class.simpleName}")
                             handleIncomingCloudEvent(event, user)
                         }
+                        // Reset backoff on clean stream completion
+                        backoffMs = 3000L
                     } catch (e: Exception) {
-                        Log.e(tag, "Stream exception: ${e.message}", e)
+                        Log.w(tag, "Stream note: ${e.message}")
+                        backoffMs = (backoffMs * 2).coerceAtMost(30000L)
                     }
                 }
-                delay(3000L) // Retry stream if disconnected
+                delay(backoffMs) // Wait before reconnecting stream
             }
         }
 
-        // 2. Fallback Periodic Polling Loop & Profile Keepalive (Every 3 seconds)
+        // 2. Fallback Periodic Polling Loop & Profile Keepalive (Every 20 seconds)
         pollJob = repositoryScope.launch {
+            var iteration = 0
             while (isActive) {
                 val user = userDao.getCurrentUser()
                 if (user != null && user.pairingCode.isNotBlank()) {
-                    // Refresh profile in cloud cache
-                    cloudRelay.publishUserProfile(
-                        userId = user.id,
-                        displayName = user.displayName,
-                        phoneNumber = user.phoneNumber,
-                        pairingCode = user.pairingCode
-                    )
+                    // Refresh profile in cloud cache every 5 minutes (every 15 iterations of 20s)
+                    if (iteration % 15 == 0) {
+                        cloudRelay.publishUserProfile(
+                            userId = user.id,
+                            displayName = user.displayName,
+                            phoneNumber = user.phoneNumber,
+                            pairingCode = user.pairingCode
+                        )
+                    }
 
                     // Poll inbox
                     try {
@@ -373,10 +391,11 @@ class PingRingRepository(private val context: Context) {
                             handleIncomingCloudEvent(event, user)
                         }
                     } catch (e: Exception) {
-                        Log.e(tag, "Polling exception: ${e.message}", e)
+                        Log.w(tag, "Polling note: ${e.message}")
                     }
                 }
-                delay(3000L)
+                iteration++
+                delay(20000L)
             }
         }
     }

@@ -65,9 +65,9 @@ class CloudRelayService {
         .protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         .connectionPool(okhttp3.ConnectionPool(5, 30, TimeUnit.SECONDS))
         .dns(ipv4PreferringDns)
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(12, TimeUnit.SECONDS)
-        .writeTimeout(10, TimeUnit.SECONDS)
+        .connectTimeout(8, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(8, TimeUnit.SECONDS)
         .retryOnConnectionFailure(true)
         .build()
 
@@ -75,7 +75,7 @@ class CloudRelayService {
         .protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         .connectionPool(okhttp3.ConnectionPool(2, 5, TimeUnit.MINUTES))
         .dns(ipv4PreferringDns)
-        .connectTimeout(15, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(0, TimeUnit.MILLISECONDS) // infinite for SSE stream
         .retryOnConnectionFailure(true)
         .build()
@@ -135,7 +135,7 @@ class CloudRelayService {
                 response.isSuccessful
             }
         } catch (e: Exception) {
-            Log.e(tag, "Failed to publish user profile for $pairingCode: ${e.message}")
+            Log.w(tag, "Failed to publish user profile for $pairingCode: ${e.message}")
             false
         }
     }
@@ -400,7 +400,7 @@ class CloudRelayService {
                 }
             }
         } catch (e: Exception) {
-            Log.e(tag, "Failed polling inbox for $myPairingCode: ${e.message}")
+            Log.w(tag, "Poll inbox note for $myPairingCode: ${e.message}")
         }
         events
     }
@@ -429,7 +429,7 @@ class CloudRelayService {
             Log.d(tag, "Starting SSE stream for topic: $topic")
             streamingClient.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
-                    Log.e(tag, "SSE stream failed with HTTP ${response.code}")
+                    Log.w(tag, "SSE stream response code: ${response.code}")
                     return@withContext
                 }
                 Log.d(tag, "SSE stream connected successfully")
@@ -450,13 +450,13 @@ class CloudRelayService {
                                 }
                             }
                         } catch (e: Exception) {
-                            Log.e(tag, "Error parsing stream json line: ${e.message}")
+                            Log.w(tag, "Error parsing stream json line: ${e.message}")
                         }
                     }
                 }
             }
         } catch (e: Exception) {
-            Log.e(tag, "Stream disconnected for $myPairingCode (${e.message})", e)
+            Log.w(tag, "Stream disconnected for $myPairingCode (${e.message})")
         }
     }
 

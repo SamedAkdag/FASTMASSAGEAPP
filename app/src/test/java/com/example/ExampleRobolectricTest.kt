@@ -3,6 +3,8 @@ package com.example
 import android.content.Context
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import com.aistudio.pingring.pgrng.MainActivity
+import com.aistudio.pingring.pgrng.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test

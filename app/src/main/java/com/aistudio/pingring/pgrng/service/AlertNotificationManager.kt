@@ -55,6 +55,7 @@ class AlertNotificationManager(private val context: Context) {
                 vibrationPattern = longArrayOf(0, 600, 250, 600, 250, 600)
                 setSound(soundUri, audioAttributes)
                 lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
+                setBypassDnd(true)
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -62,7 +63,10 @@ class AlertNotificationManager(private val context: Context) {
 
     fun showEmergencyNotification(alert: AlertEntity) {
         val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or 
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or 
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             putExtra("OPEN_ALERT_ID", alert.id)
         }
 
@@ -98,6 +102,11 @@ class AlertNotificationManager(private val context: Context) {
         notificationManager.notify(NOTIFICATION_ID_BASE + alert.id.hashCode() % 1000, notification)
         wakeUpScreen()
         triggerVibrationAndTone()
+
+        // Try direct activity launch over lockscreen
+        try {
+            context.startActivity(intent)
+        } catch (_: Exception) {}
     }
 
     private fun wakeUpScreen() {
@@ -116,7 +125,7 @@ class AlertNotificationManager(private val context: Context) {
                     PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.ON_AFTER_RELEASE,
                     "pingring:emergency_alert_wake"
                 )
-                wakeLock?.acquire(10000L) // Keep awake for 10s to present alert
+                wakeLock?.acquire(15000L) // Keep awake for 15s to present alert
             }
         } catch (e: Exception) {
             // Ignore power manager errors on non-supported environments

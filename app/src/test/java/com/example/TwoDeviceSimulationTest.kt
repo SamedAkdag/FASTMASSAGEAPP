@@ -2,11 +2,11 @@ package com.example
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.example.data.local.AppDatabase
-import com.example.data.model.UserEntity
-import com.example.data.remote.CloudRelayService
-import com.example.data.remote.RemoteAlertMessage
-import com.example.data.remote.RemoteIncomingEvent
+import com.aistudio.pingring.pgrng.data.local.AppDatabase
+import com.aistudio.pingring.pgrng.data.model.UserEntity
+import com.aistudio.pingring.pgrng.data.remote.CloudRelayService
+import com.aistudio.pingring.pgrng.data.remote.RemoteAlertMessage
+import com.aistudio.pingring.pgrng.data.remote.RemoteIncomingEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
