@@ -221,7 +221,7 @@ class CloudRelayService {
                 }
             }
         } catch (e: Exception) {
-            Log.e(tag, "Failed to fetch profile for $pairingCode: ${e.message}")
+            Log.w(tag, "fetchUserProfile note for $pairingCode: ${e.message}")
         }
         null
     }
